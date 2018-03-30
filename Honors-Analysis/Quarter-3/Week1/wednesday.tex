@@ -1,0 +1,321 @@
+
+\RequirePackage{luatex85}
+\documentclass{amsart}
+%-------Packages---------
+\usepackage{fontspec}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage[shortlabels]{enumitem}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{thmtools, thm-restate}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{
+nameref,%\nameref
+hyperref,%\autoref
+% n.b. \Autoref is defined by thmtools
+cleveref,% \cref
+% n.b. cleveref after! hyperref
+}
+\usepackage{listings}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{tikz}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+\newcommand{\abs}[1]{\left| #1\right|}
+\newcommand{\parens}[1]{\left( #1\right)}
+\newcommand{\bracks}[1]{\left[ #1\right]}
+\newcommand{\braces}[1]{\left\{ #1\right\}}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\renewcommand*{\thesubsection}{\thesection.\ifnum\value{subsection}=0 M\else\ifnum\value{subsection}=1 W\else\ifnum\value{subsection}=2 F\else P\fi\fi\fi}
+\declaretheorem[numberwithin=subsection]{theorem}
+\declaretheorem[sibling=theorem]{corollary}
+\declaretheorem[sibling=theorem]{proposition}
+\declaretheorem[sibling=theorem]{lemma}
+\declaretheorem[sibling=theorem]{conjecture}
+\declaretheorem[sibling=theorem]{question}
+\declaretheorem[sibling=theorem]{process}
+
+\theoremstyle{definition}
+\declaretheorem[sibling=theorem, style=definition]{definition}
+\declaretheorem[sibling=theorem, style=definition]{definitions}
+\declaretheorem[sibling=theorem, style=definition]{construction}
+\declaretheorem[sibling=theorem, style=definition]{example}
+\declaretheorem[sibling=theorem, style=definition]{examples}
+\declaretheorem[sibling=theorem, style=definition]{notation}
+\declaretheorem[sibling=theorem, style=definition]{notations}
+\declaretheorem[sibling=theorem, style=definition]{convention}
+\declaretheorem[sibling=theorem, style=definition]{addendum}
+\declaretheorem[sibling=theorem, style=definition]{exercise}
+\declaretheorem[sibling=theorem, style=definition]{consequence}
+\declaretheorem[sibling=theorem, style=definition]{observation}
+\declaretheorem[numbered=no, style=definition, name=Reminder Definition]{definition-prime}
+
+\declaretheorem[sibling=theorem, style=remark]{remark}
+\declaretheorem[sibling=theorem, style=remark]{axiom}
+\declaretheorem[sibling=theorem, style=remark]{recall}
+\declaretheorem[sibling=theorem, style=remark]{remarks}
+\declaretheorem[sibling=theorem, style=remark]{warnings}
+\declaretheorem[sibling=theorem, style=remark]{scholium}
+\declaretheorem[sibling=theorem, style=remark]{solution}
+\declaretheorem[sibling=theorem, style=remark]{notes}
+\declaretheorem[numbered=no, style=remark]{problem}
+
+\declaretheorem[numberwithin=section, shaded={bgcolor=Turquoise}]{homework}
+\declaretheorem[sibling=homework, shaded={bgcolor=Lavender}]{challenge}
+\declaretheorem[sibling=homework, name=Do, shaded={bgcolor=Green}]{do-this}
+\declaretheorem[sibling=homework, name=Do!, shaded={bgcolor=Green}]{do-this!}
+\declaretheorem[sibling=homework, name=Do*, shaded={bgcolor=Green}]{do-this*}
+\declaretheorem[sibling=homework, name=Ah-Ha!, shaded={bgcolor=Green}]{ah-ha}
+
+\declaretheorem[numberwithin=section]{history}
+\declaretheorem[sibling=history]{architecture}
+
+\usepackage{blindtext}
+
+\makeatletter
+\let\c@equation\c@theorem
+\makeatother
+\numberwithin{equation}{section}
+
+\newcommand{\sm}{\setminus}
+\newcommand{\s}[1]{\{#1\}}
+\newcommand{\SET}[1]{\braces{#1}}
+\newcommand{\n}{\not}
+\newcommand{\nin}{\n\in}
+\newcommand{\susbet}{\subset}
+
+\newcommand{\IF}{\text{ if }}
+\newcommand{\ST}{\text{ such that }}
+\newcommand{\OR}{\text{ or }}
+\newcommand{\AND}{\text{ and }}
+\newcommand{\OTHERWISE}{\text{ otherwise }}
+\newcommand{\WHERE}{\text{ where }}
+\newcommand{\FORALL}{\text{ for all }}
+\newcommand{\FOR}{\text{ for }}
+\newcommand{\FORSOME}{\text{ for some }}
+\newcommand{\THEN}{\text{ for some }}
+
+\newcommand{\GCD}{\text{GCD}}
+\newcommand{\ext}{\text{ext}}
+\newcommand{\Span}{\text{span}}
+\newcommand{\SO}{\text{SO}}
+\newcommand{\diam}{\text{diam}}
+\newcommand{\DET}{\text{det}}
+\newcommand{\adj}{\text{adj}}
+\newcommand{\GLNR}{GL_n(\R)}
+\newcommand{\sgn}{\text{sgn}}
+\newcommand{\Vol}{\text{Vol}}
+\usepackage{bbm}
+\newcommand{\ind}{\mathbbm{1}}
+\newcommand{\len}{\text{len}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\A}{\textbf{A}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\I}{\textbf{I}}
+\newcommand{\C}{\textbf{C}}
+\newcommand{\F}{\textbf{F}}
+\newcommand{\G}{\textbf{G}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\LL}{\textbf{L}}
+\newcommand{\PP}{\mathcal{P}}
+
+\newcommand{\q}{\textbf{q}}
+\newcommand{\g}{\mathscr{g}}
+
+\newcommand{\va}{\textbf{a}}
+\newcommand{\vb}{\textbf{b}}
+\newcommand{\vc}{\textbf{c}}
+\newcommand{\vd}{\textbf{d}}
+\newcommand{\ve}{\textbf{e}}
+\newcommand{\vf}{\textbf{f}}
+\newcommand{\vs}{\textbf{s}}
+\newcommand{\vt}{\textbf{t}}
+\newcommand{\vu}{\textbf{u}}
+\newcommand{\vv}{\textbf{v}}
+\newcommand{\vw}{\textbf{w}}
+\newcommand{\vx}{\textbf{x}}
+\newcommand{\vy}{\textbf{y}}
+\newcommand{\vz}{\textbf{z}}
+\newcommand{\vze}{\textbf{0}}
+\newcommand{\fin}{f^{-1}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+
+\newcommand{\limsupin}{\limsup_{n\to\infty}}
+\newcommand{\limin}{\lim_{n\to\infty}}
+\newcommand{\limft}[2]{\lim_{#1\to#2}}
+\newcommand{\limtin}[1]{\lim_{#1\to\infty}}
+\newcommand{\dlimin}{\underset{n\to\infty}\lim}
+\newcommand{\dlimft}[2]{\underset{#1\to#2}\lim}
+\newcommand{\dlimtin}[1]{\underset{#1\to\infty}\lim}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\sumin}[1]{\sum{#1=1}^\infty}
+
+\renewcommand{\phi}{\varphi}
+\newcommand{\tilR}{\overset{\sim}{R}}
+
+\newcommand{\onto}{\twoheadrightarrow}
+
+\usepackage{changepage}
+\usepackage{luacode}
+\usepackage{pgfplots}
+\bibliographystyle{plain}
+
+\setcounter{section}{1}
+\setcounter{subsection}{1}
+\title{Day 1W: Problem with Lebesgue Outer Measure}
+\date{March 28 2018}
+\author{Lecturer: Charlie Smart}
+
+\begin{document}
+
+  \maketitle
+
+  \begin{definition}
+
+    The \emph{Lebesgue Outer Measure} is the function $\mu:\PP(\R^d) \to \s{r \in \R \mid r \geq 0} \cup \s{\infty}$ defined as
+    \[\mu(A) = \inf \SET{\sum_{k\geq1}|R_k| \mid \s{R_k} \text{ rectangles such that } A \subset \bigcup_{k\geq1}R_k}.\]
+
+    From last lexture we have the following properties
+    \begin{enumerate}
+      \item For all rectangles $R$, $\mu(R) = |R|$
+      \item (Monotonicity) For any $A \subset B \subset \R^d$, $\mu(A) \leq \mu(B).$
+      \item (Subadditivity) If $\s{A_i} \subset \PP(\R^2)$ then $\mu(\bigcup_{k\geq1}A_i) \leq \sum_{k\geq1}\mu(A_i)$
+    \end{enumerate}
+
+    Ideally, our measure would additionally have the following:
+    \begin{enumerate}[resume]
+      \item (Finite Additivity) If $A, B \subset \R^d$ with $A \cap B = \emptyset$ then $\mu(A \cup B) = \mu(A) + \mu(B).$
+      \item (Countable Additivity) If $\s{A_k} \subset \PP(\R^d)$ are pairwise disjoint sets, then $\mu(\bigcup_{k\geq1}A_k) = \sum_{k\ge1}\mu(A_k).$
+    \end{enumerate}
+
+  \end{definition}
+
+  \begin{remark}
+
+    It should be clear that property $(4)$ is intuitive. However, the reason we want $(5)$ is because it is a form of continuity. It is analagous to the fact that $f(\limin x_n) = \limin f(x_n)$ if $f$ is continuous and $\s{x_n} \subset \R$ is convergent.
+
+  \end{remark}
+
+  \begin{do-this}
+
+    The outer measure is translation invariant. That is if $A \subset \R^d$ and $x \in \R^d$ then $\mu(A) = \mu(A + x).$
+
+  \end{do-this}
+
+    \begin{proof}
+
+      First, we note that if $R$ is a rectangle, then $R + x$ is also a rectangle. Moreover, $|R| = |R + x|.$ So, suppose $\s{R_k}$ is a cover of $A.$ Let $a \in A + x.$ Then, $a - x \in A.$ So there exists some $k \in \N$ such that $x - a \in R_k.$ Therefore, $a \in R_k + x.$ So, $\s{R_k}$ is a cover of $A + x.$ Note that $\sum_{k\geq1}|R_k| = \sum_{k\geq1}|R_k + x|.$ Therefore by definition of $\mu, \mu(A + x) \leq \mu(A).$
+
+      Note that $A = A + x - x.$ So applying the same logic, $\mu(A) = \mu(A + x - x) \leq \mu(A + x).$ Therefore, $\mu(A) = \mu(A + x).$
+
+    \end{proof}
+
+  \begin{theorem}
+
+    Property $(5)$ does not hold in $\R$ for the Lebesgue Outer Measure.
+
+  \end{theorem}
+
+    \begin{proof}
+
+      To prove this, we will explot the arithmetic of $\R.$ By Zorn's Lemma, we can choose a set $A \subset [-1, 1]$ which is maximal under the constrain that $x - y \in \R \sm \Q$ for every distrinct pair $x, y \in A.$
+
+      Let $\s{q_1, q_2, \ldots}$ enumerate $\Q \cap [-1, 1].$ Suppose $x \in [-1, 1].$ Then, there exists some $y \in A$ and $i \in \N$ such that $x = y - q_i.$ If this werent the case then $x$ could be included in $A$ and $A$ would not be maximal.
+
+      We note that for all $j, k \geq 1$, $A + q_k$ is disjoint from $A + q_j$ as the elements of each are the rational $|q_k - q_j|$ away from each other. Thus, $[-1, 1] \subseteq \bigcup_{k\geq1}(A + q_k) \leq [-2, 2].$
+      So, by properties (1) and (2) \[2 = \mu([-1, 2]) \leq \mu(\bigcup_{k\geq1}(A + q_k)) \leq \mu([-2, 2]) = 4.\]
+      Suppose (5) were true. Then, $\mu(\bigcup_{k\geq1}(A + q_k)) = \sum_{k\geq1}\mu(A + q_k) = \sum_{k\geq1}\mu(A)$ by translation invariance.
+      So, we have that $\mu(\bigcup_{k\geq1}(A + q_k)) \in \s{0, \infty}$ as it is equal to a positive constant summed infintely many times.
+      However, this value must also be between 2 and 4. Therefore, (5) cannot be true.
+
+    \end{proof}
+
+  \begin{theorem}
+
+    Property $(4)$ also fails in $\R.$ This will be proved later.
+
+  \end{theorem}
+
+  \begin{theorem}[Banach Tarsky Paradox]
+
+    Consider the unit ball $B_1$ in $\R^3.$ We can find $A_1, \ldots, A_{16} \susbet B_1$ and rigid transformations $T_1, \ldots, T_{16}:\R^3 \to \R^3$ so that
+    \[B_1 = \bigcup_{k=1}^8T_kA_k = \bigcup_{k=9}^{16}T_kA_k.\]
+
+    This abuses the axiom of choice and the algebra of summetries.
+
+  \end{theorem}
+
+  \begin{history}
+
+    While this theorem and problem leads to interesting group theory, it does not lead to interesting analysis so we will be ignoring it.
+
+  \end{history}
+
+  \begin{remark}
+
+    Outer measure by itself does not give a satisfactory theory of volume in $\R^d.$ However, all of our issues come from pathological sets which abuse the axiom of choice to ``resonate'' to fill space using $\Q$ (or some other countable subset). These are sets which fail to efficiently cover the space but which can approximate space in some strange infinite way. So, we will restrict our definition of $\mu$ to only efficiently covered sets. To check that we will cover the set and its complement and make sure the measures add up.
+
+  \end{remark}
+
+  \begin{definition}
+
+    If $A \subseteq \R^d$ then its \emph{Complement} is $A^c = \R \sm A.$
+
+  \end{definition}
+
+  \begin{definition}[Caratheodory Separation Condition]
+
+    A set $A \subset \R^d$ is \emph{Lebesgue Measureable} if for all rectangles $R$ we have
+    \[\mu(A \cap R) + \mu(A^c \cap R) = \mu(R) = |R|.\]
+
+    Intuitively, this checks to see whether any extra space is covered in our ``reference'' volume, the rectangle, when we split it using the set.
+
+  \end{definition}
+
+  \begin{lemma}
+
+    If $A \subset \R^d$ is measureable then for all $B \subset \R^d$ we have that
+    \[\mu(A \cap B) + \mu(A^c \cap B) = \mu(B).\]
+
+  \end{lemma}
+
+    \begin{proof}
+
+      Subadditivity implies that
+      \[\mu(B) \leq \mu(A \cap B) + \mu(A^c \cap B)\]
+      so it is sufficient to show the opposite inequality. To do so, we will convert covers of $B$ into covers of $A \cap B$ and $A^c \cap B.$
+      By definition of outer measure, there exists a collection of rectangles $\s{R_k}$ which covers $B$ such that $\sum_{k\geq1}|R_k| \leq \mu(B) + \epsilon.$
+
+      We note that $B \subset \bigcup_{k\geq1}R_k$ we have that $A \cap B \subset \bigcup_{k\geq1}A \cap R_k.$ So monotonicity and subaddativity gives us
+      \begin{equation}\label{eq:1}
+        \sum_{k\geq1}\mu(A \cap R_k) \geq \mu(\bigcup_{k\geq1}A \cap R_k) \geq \mu(A \cap B).
+      \end{equation}
+      This holds similarly for $A^c.$
+
+      By measurability of $A$ we have that
+      \begin{align*}
+        \mu(B) + \epsilon &\geq \parens{\sum_{k\geq1}|R_k|}\\
+        &= \sum_{k\geq1}[\mu(A \cap R_k) + \mu(A^c \cap R_k)]\\
+        &= \sum_{k\geq1}[\mu(A \cap R_k)] + \sum_{k\geq1}[\mu(A^c \cap R_k)]\\
+        &\geq \mu(A \cap B) + \mu(A^c \cap R_k) &&\text{By }\ref{eq:1}
+      \end{align*}
+
+      So we have shown that
+      \[\mu(A \cap B) + \mu(A^c \cap B) \leq \mu(B) \leq \mu(A \cap B) + \mu(A^c \cap B)\]
+      and the theorem holds.
+
+    \end{proof}
+
+\end{document}
